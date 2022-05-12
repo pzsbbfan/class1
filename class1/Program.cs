@@ -10,45 +10,155 @@ namespace class1
     {
         static void Main(string[] args)
         {
-           car.RunTest();
-           Console.ReadLine();
+            Date.Runtest();
+            Console.ReadLine();
         }
 
     }
 
-    class car
-    {
+    class Date
+    { 
         private int year;
-        private string model;
-        private bool isDrivable;
-        private double price;
+        private int month;
+        private int day;
 
-        public car(int year, string model, double Price, bool isDrivable = false)
+        public Date(int day = 9, int month = 5, int year = 2022)
         { 
+            this.day = day;
+            this.month = month;
             this.year = year;
-            this.model = model;
-            this.isDrivable = isDrivable;
-            this.price = Price;
+        }
+        public void Add(int days)
+        {
+            day += days;
+        }
+
+        public void Add(int days, int months)
+        {
+            day += days;
+            month += months;
+            
+        }
+
+        public void Add(Date other)
+        {
+            day += other.day;
+            month += other.month;
+            year += other.year;
+        }
+
+        public string monthName()
+        {
+            string monthName = "";
+            switch (month)
+            {
+                case 1:
+                    monthName = "January";
+                    break;
+                case 2:
+                    monthName = "Febuary";
+                    break;
+                case 3:
+                    monthName = "March";
+                    break;
+                case 4:
+                    monthName = "April";
+                    break;
+                case 5:
+                    monthName = "May";
+                    break;
+                case 6:
+                    monthName = "June";
+                    break;
+                case 7:
+                    monthName = "July";
+                    break;
+                case 8:
+                    monthName = "Auguest";
+                    break;
+                case 9:
+                    monthName = "September";
+                    break;
+                case 10:
+                    monthName = "October";
+                    break;
+                case 11:
+                    monthName = "November";
+                    break;
+                case 12:
+                    monthName = "December";
+                    break;
+                default:
+                    break;
+            }
+            return monthName;
+        }
+
+        public int monthDays()
+        {
+            int monthDays = 0;
+            if (month == 4 || month == 9 || month == 6 || month == 11)
+            {
+                monthDays = 30;
+            }
+            else if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8
+                || month == 10 || month == 12)
+            {
+                monthDays = 31;
+            }
+            else if (month == 2)
+            {
+                if (year % 4 == 0)
+                {
+                    monthDays = 29;
+                }
+                else
+                {
+                    monthDays = 28;
+                }
+            }
+            return monthDays;
+        }
+
+        private void Normalize()
+        {
+            if (day > monthDays())
+            {
+                day -= monthDays();
+                month++;
+            }
+
+            if (month > 12)
+            {
+                month -= 12;
+                year++;
+            }
         }
 
         public override string ToString()
         {
-            return $"model: {model,15}   year: {year,8}   price: {price,8}   Electrical?: {isDrivable,10}";
+            return $"year: {year} month: {monthName()} day: {day}";
         }
 
-        public static void RunTest()
-        {
-            car car1 = new car(2017,"Hyundai Tucson", 49999.99);
-            Console.WriteLine(car1);
+        public static void Runtest()
+        { 
+            Date date1 = new Date(20,1,2012);
+            date1.Normalize();
+            Console.WriteLine(date1);
 
-            car car2 = new car(2022, "BMW", 780000);
-            Console.WriteLine(car2);
+            date1.Add(20);
+            date1.Normalize();
+            Console.WriteLine(date1);
 
-            car car3 = new car(2022, "benz", 800000.99, true);
-            Console.WriteLine(car3);
+            date1.Add(20, 1);
+            date1.Normalize();
+            Console.WriteLine(date1);
 
-            car car4 = new car(2018, "kam", 84532.21, true);
-            Console.WriteLine(car4);
+            Date date2 = new Date(20, 3, 2012);
+            date1.Add(date2);
+            date1.Normalize();
+            Console.WriteLine(date1);
+
         }
     }
 }
