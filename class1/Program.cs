@@ -37,6 +37,7 @@ namespace class1
         {
             day += days;
             month += months;
+
             
         }
 
@@ -88,6 +89,9 @@ namespace class1
                 case 12:
                     monthName = "December";
                     break;
+                case 13:
+                    monthName = "abc";
+                    break;
                 default:
                     break;
             }
@@ -120,19 +124,24 @@ namespace class1
             return monthDays;
         }
 
+       
         private void Normalize()
         {
-            if (day > monthDays())
+            while (day > monthDays()||month > 12)
             {
-                day -= monthDays();
-                month++;
-            }
+                if (day > monthDays())
+                {
+                    day -= monthDays();
+                    month++;
+                }
 
-            if (month > 12)
-            {
-                month -= 12;
-                year++;
+                if (month > 12)
+                {
+                    month -= 13;
+                    year++;
+                }
             }
+            
         }
 
         public override string ToString()
@@ -142,23 +151,21 @@ namespace class1
 
         public static void Runtest()
         { 
-            Date date1 = new Date(20,1,2012);
+            Date date1 = new Date(1,1,2012);
             date1.Normalize();
             Console.WriteLine(date1);
 
-            date1.Add(20);
+            date1.Add(366);
             date1.Normalize();
             Console.WriteLine(date1);
 
-            date1.Add(20, 1);
+            date1.Add(365, 120);
             date1.Normalize();
             Console.WriteLine(date1);
 
-            Date date2 = new Date(20, 3, 2012);
-            date1.Add(date2);
+            date1.Add(new Date(10, 10, 100));
             date1.Normalize();
             Console.WriteLine(date1);
-
         }
     }
 }
